@@ -13,4 +13,4 @@ Thanks to all the amazing people who have contributed to **AlumX's Backend Repos
 
 ## 🌱 Contributors
 <!-- Add your Name (with GitHub username) below this line -->
-
+- Shaurya Raj Mallick(Shaurpro)
