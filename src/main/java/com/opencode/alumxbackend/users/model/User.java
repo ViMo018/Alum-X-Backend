@@ -4,8 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+
+import com.opencode.alumxbackend.jobposts.model.JobPostComment;
 
 @Entity
 @Table(name = "users")
@@ -34,7 +35,7 @@ public class User {
     private String passwordHash;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<JobPostComment> comments = new ArrayList<>();
+    private List<JobPostComment> comments;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
