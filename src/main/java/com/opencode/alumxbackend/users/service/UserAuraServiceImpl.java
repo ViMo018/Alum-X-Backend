@@ -4,7 +4,7 @@ import java.util.Collections;
 
 import org.springframework.stereotype.Service;
 
-import com.opencode.alumxbackend.users.dto.AuraResponse;
+import com.opencode.alumxbackend.users.dto.UserAuraResponse;
 import com.opencode.alumxbackend.users.model.User;
 import com.opencode.alumxbackend.users.repository.UserRepository;
 
@@ -12,16 +12,16 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AuraServiceImpl implements AuraService {
+public class UserAuraServiceImpl implements UserAuraService {
 
     private final UserRepository userRepository;
 
     @Override
-    public AuraResponse getAuraResponse(Long userId) {
+    public UserAuraResponse getAuraResponse(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return AuraResponse.builder()
+        return UserAuraResponse.builder()
                 .skills(nullSafe(user.getSkills()))
                 .education(nullSafe(user.getEducation()))
                 .techStack(nullSafe(user.getTechStack()))

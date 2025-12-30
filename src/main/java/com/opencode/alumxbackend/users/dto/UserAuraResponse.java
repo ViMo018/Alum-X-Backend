@@ -7,7 +7,7 @@ import java.util.List;
 @Data
 @Builder
 @AllArgsConstructor
-public class AuraResponse {
+public class UserAuraResponse {
 
     private List<String> skills;
     private List<String> education;
