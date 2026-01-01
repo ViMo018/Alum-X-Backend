@@ -19,8 +19,8 @@ public interface GroupMessageService {
             Long userId
     );
     List<GroupMessageResponse> getAllGroupMessages(Long groupId);
+    void deleteMessage(Long groupId, Long messageId, Long userId);
 
     GroupMessageSearchResponse searchForMessage(Long groupId, Long userId, GroupMessageSearchRequest request);
-
 
 }

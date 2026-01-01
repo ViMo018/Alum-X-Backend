@@ -1,7 +1,16 @@
 package com.opencode.alumxbackend.groupchatmessages.service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
 import com.opencode.alumxbackend.groupchat.model.GroupChat;
 import com.opencode.alumxbackend.groupchat.model.Participant;
+import com.opencode.alumxbackend.groupchat.repository.GroupChatRepository;
 import com.opencode.alumxbackend.groupchatmessages.dto.GroupMessageResponse;
 import com.opencode.alumxbackend.groupchatmessages.dto.GroupMessageSearchRequest;
 import com.opencode.alumxbackend.groupchatmessages.dto.GroupMessageSearchResponse;
@@ -14,16 +23,7 @@ import com.opencode.alumxbackend.groupchatmessages.repository.GroupMessageReposi
 import com.opencode.alumxbackend.users.repository.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-
-import com.opencode.alumxbackend.groupchat.repository.GroupChatRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 
 @Service
 @RequiredArgsConstructor
@@ -114,6 +114,33 @@ public class GroupMessageServiceImpl implements GroupMessageService {
     }
 
     @Override
+    public void deleteMessage(Long groupId, Long messageId, Long userId) {
+        GroupChat group = groupChatRepository.findById(groupId)
+                .orElseThrow(() -> new GroupNotFoundException("Group not found"));
+
+        boolean isMember = group.getParticipants()
+                .stream()
+                .anyMatch(p -> p.getUserId().equals(userId));
+
+        if (!isMember) {
+            throw new UserNotMemberException(userId);
+        }
+
+        GroupMessage message = messageRepository.findById(messageId)
+                .orElseThrow(() -> new InvalidMessageException("Message not found"));
+
+        if (!message.getGroupId().equals(groupId)) {
+            throw new InvalidMessageException("Message does not belong to this group");
+        }
+
+        if (!message.getSenderUserId().equals(userId)) {
+            throw new InvalidMessageException("You are not the sender of this message");
+        }
+
+        messageRepository.delete(message);
+    }
+
+    @Override
     public GroupMessageSearchResponse searchForMessage(Long groupId, Long userId, GroupMessageSearchRequest request) {
 
         GroupChat groupChat = groupChatRepository.findById(groupId)
@@ -130,7 +157,6 @@ public class GroupMessageServiceImpl implements GroupMessageService {
         if (!isMember) {
             throw new RuntimeException("User not in group! Access Denied");
         }
-
 
         String query = request.getQuery().trim();
 
