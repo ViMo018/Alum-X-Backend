@@ -8,9 +8,6 @@ import com.opencode.alumxbackend.groupchatmessages.service.GroupMessageService;
 import jakarta.validation.Valid;
 
 
-
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
