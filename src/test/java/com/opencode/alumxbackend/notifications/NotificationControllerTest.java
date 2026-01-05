@@ -43,8 +43,6 @@ class NotificationControllerTest {
 
     @BeforeEach
     public void setUp() {
-        webClient = WebClient.create("http://localhost:" + port);
-
         notificationRepository.deleteAll();
         userRepository.deleteAll();
 
@@ -59,6 +57,9 @@ class NotificationControllerTest {
                 .updatedAt(LocalDateTime.now())
                 .build();
         testUser = userRepository.save(testUser);
+
+
+        webClient = WebClient.create("http://localhost:" + port);
 
         // Login to get access token
         LoginRequest loginRequest = new LoginRequest("notifyuser@example.com", "password123");
