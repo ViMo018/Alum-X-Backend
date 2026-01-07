@@ -55,6 +55,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/users/**").permitAll() // Registration
                         .requestMatchers("/api/users").hasRole("ADMIN") // Only admins can view all users
                         .requestMatchers("/health").permitAll()
                         .requestMatchers("/ws/**").permitAll() // WebSocket endpoint

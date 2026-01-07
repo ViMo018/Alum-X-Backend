@@ -22,6 +22,9 @@ public class GroupChat {
     @Column(name = "group_name", nullable = false)
     private String groupName;
 
+    @Column(name = "owner_id", nullable = false)
+    private Long ownerId;
+
     @OneToMany(mappedBy = "groupChat", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Participant> participants;

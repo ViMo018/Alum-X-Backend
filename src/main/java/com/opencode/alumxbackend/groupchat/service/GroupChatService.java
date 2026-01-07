@@ -13,5 +13,6 @@ public interface GroupChatService {
 
     List<GroupChat> getGroupsForUser(Long userId);
 
-
+    GroupChat addUserToGroup(Long groupId, Long userId);
+    GroupChat removeUserFromGroup(Long groupId, Long userId);
 }

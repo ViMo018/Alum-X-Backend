@@ -1,6 +1,7 @@
 package com.opencode.alumxbackend.groupchat.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import java.util.List;
@@ -16,6 +17,9 @@ public class GroupChatRequest {
 
     @Size(min = 2, message = "At least 2 participants required")
     private List<ParticipantRequest> participants;
+
+    @NotNull(message = "Owner ID is required")
+    private Long ownerId;
 
     @Data
     @AllArgsConstructor
